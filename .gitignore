@@ -1,0 +1,5 @@
+# Project exclude paths
+/meiying-admin/target/
+/meiying-common/target/
+/meiying-framework/target/
+/meiying-system/target/
