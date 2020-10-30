@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Component;
 
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -20,6 +21,7 @@ import java.util.concurrent.TimeUnit;
  * Date: 2020-10-09
  * Time: 14:44
  */
+@Component
 public class SpringSessionValidationScheduler implements SessionValidationScheduler {
     private static final Logger log = LoggerFactory.getLogger(SpringSessionValidationScheduler.class);
 
