@@ -17,5 +17,23 @@ public interface ISysUserService {
      */
     List<SysUser> selectUserList();
 
+    /**
+     * 根据id查询单个用户
+     * @param s
+     * @return
+     */
     SysUser selectUserById(String s);
+
+    /**
+     * 根据登陆名查询用户
+     * @param username
+     * @return
+     */
+    SysUser selectUserByLoginName(String username);
+
+    /**
+     * 更新用户信息
+     * @param user
+     */
+    int updateUserInfo(SysUser user);
 }

@@ -17,5 +17,24 @@ public interface SysUserMapper {
      */
     List<SysUser> selectUserList();
 
+    /**
+     * 根据id查询单个用户
+     * @param id
+     * @return
+     */
     SysUser selectUserById(String id);
+
+    /**
+     * 根据登陆名称查询用户
+     * @param userName
+     * @return
+     */
+    SysUser selectUserByLoginName(String userName);
+
+    /**
+     * 更新用户信息
+     * @param user
+     * @return
+     */
+    int updateUser(SysUser user);
 }

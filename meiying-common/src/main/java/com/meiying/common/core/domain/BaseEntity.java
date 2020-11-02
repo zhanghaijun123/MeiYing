@@ -1,5 +1,6 @@
 package com.meiying.common.core.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +11,7 @@ import java.util.Map;
  * Date: 2020-09-29
  * Time: 16:00
  */
-public class BaseEntity {
+public class BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /** 搜索值 */

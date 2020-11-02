@@ -1,11 +1,16 @@
 package com.meiying.framework.shiro.realm;
 
+import com.meiying.common.exception.user.*;
+import com.meiying.framework.shiro.service.SysLoginService;
 import com.meiying.system.domain.SysUser;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Description: 自定义realm，处理登陆权限
@@ -14,6 +19,9 @@ import org.apache.shiro.subject.PrincipalCollection;
  * Time: 9:50
  */
 public class UserRealm extends AuthorizingRealm {
+    private static final Logger log= LoggerFactory.getLogger(UserRealm.class);
+    @Autowired
+    private SysLoginService loginService;
     /**
      * 授权
      * @param principalCollection
@@ -26,7 +34,7 @@ public class UserRealm extends AuthorizingRealm {
 
     /**
      * 认证
-     * @param authenticationToken
+     * @param token
      * @return
      * @throws AuthenticationException
      */

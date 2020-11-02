@@ -2,6 +2,7 @@ package com.meiying.system.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.meiying.common.core.domain.BaseEntity;
+import com.meiying.common.utils.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -103,7 +104,7 @@ public class SysUser extends BaseEntity {
 
     public static boolean isAdmin(String userId)
     {
-        return userId != null && "1" == userId;
+        return userId != null && StringUtils.equals("1",userId);
     }
 
     public String getDeptId() {

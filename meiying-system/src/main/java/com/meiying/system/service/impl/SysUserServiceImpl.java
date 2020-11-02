@@ -22,13 +22,43 @@ public class SysUserServiceImpl implements ISysUserService {
 
     @Autowired
     private SysUserMapper userMapper;
+
+    /**
+     * 查询所有用户
+     * @return
+     */
     @Override
     public List<SysUser> selectUserList() {
         return userMapper.selectUserList();
     }
 
+    /**
+     * 根据id查询单个用户
+     * @param s
+     * @return
+     */
     @Override
     public SysUser selectUserById(String s) {
         return userMapper.selectUserById(s);
     }
+
+    /**
+     * 根据登陆名查询用
+     * @param userName
+     * @return
+     */
+    @Override
+    public SysUser selectUserByLoginName(String userName) {
+        return userMapper.selectUserByLoginName(userName);
+    }
+
+    /**
+     * 更新用户信息
+     * @param user
+     */
+    @Override
+    public int updateUserInfo(SysUser user) {
+        return userMapper.updateUser(user);
+    }
+
 }
