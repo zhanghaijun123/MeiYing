@@ -1,5 +1,6 @@
 package com.meiying.system.service.impl;
 
+import com.meiying.system.service.ISysPostService;
 import org.springframework.stereotype.Service;
 
 /**

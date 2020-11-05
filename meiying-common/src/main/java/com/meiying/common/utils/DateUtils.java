@@ -152,4 +152,11 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
         // long sec = diff % nd % nh % nm / ns;
         return day + "天" + hour + "小时" + min + "分钟";
     }
+    /**
+     * 计算相差天数
+     */
+    public static int differentDaysByMillisecond(Date date1, Date date2)
+    {
+        return Math.abs((int) ((date2.getTime() - date1.getTime()) / (1000 * 3600 * 24)));
+    }
 }

@@ -1,5 +1,6 @@
 package com.meiying.system.service.impl;
 
+import com.meiying.common.constant.UserConstants;
 import com.meiying.common.utils.StringUtils;
 import com.meiying.system.domain.SysPost;
 import com.meiying.system.domain.SysRole;
@@ -110,6 +111,52 @@ public class SysUserServiceImpl implements ISysUserService {
             return idsStr.substring(0, idsStr.length() - 1);
         }
         return idsStr.toString();
+    }
+    /**
+     * 校验手机号码是否唯一
+     *
+     * @param user 用户信息
+     * @return
+     */
+    @Override
+    public String checkPhoneUnique(SysUser user)
+    {
+        String userId = StringUtils.isNull(user.getUserId()) ? "-1" : user.getUserId();
+        SysUser info = userMapper.checkPhoneUnique(user.getPhonenumber());
+        if (StringUtils.isNotNull(info) && !StringUtils.equals(info.getUserId(),userId))
+        {
+            return UserConstants.USER_PHONE_NOT_UNIQUE;
+        }
+        return UserConstants.USER_PHONE_UNIQUE;
+    }
+
+    /**
+     * 校验email是否唯一
+     *
+     * @param user 用户信息
+     * @return
+     */
+    @Override
+    public String checkEmailUnique(SysUser user)
+    {
+        String userId = StringUtils.isNull(user.getUserId()) ? "-1" : user.getUserId();
+        SysUser info = userMapper.checkEmailUnique(user.getEmail());
+        if (StringUtils.isNotNull(info) && !StringUtils.equals(info.getUserId(),userId))
+        {
+            return UserConstants.USER_EMAIL_NOT_UNIQUE;
+        }
+        return UserConstants.USER_EMAIL_UNIQUE;
+    }
+    /**
+     * 修改用户密码
+     *
+     * @param user 用户信息
+     * @return 结果
+     */
+    @Override
+    public int resetUserPwd(SysUser user)
+    {
+        return updateUserInfo(user);
     }
 
 }

@@ -32,19 +32,22 @@ public class SysUserController extends BaseController {
         return prefix+"/user";
     }
     /**
-     * 查询所有用户(后期分页)
+     * 校验手机号码
      */
-    @GetMapping("/list")
+    @PostMapping("/checkPhoneUnique")
     @ResponseBody
-    public List<SysUser> list(){
-        List<SysUser> list=userService.selectUserList();
-        return list;
+    public String checkPhoneUnique(SysUser user)
+    {
+        return userService.checkPhoneUnique(user);
     }
-    @GetMapping("/getUser")
+
+    /**
+     * 校验email邮箱
+     */
+    @PostMapping("/checkEmailUnique")
     @ResponseBody
-    public SysUser getUser(){
-        SysUser sysUser=userService.selectUserById("1");
-        System.out.println(sysUser.toString());
-        return sysUser;
+    public String checkEmailUnique(SysUser user)
+    {
+        return userService.checkEmailUnique(user);
     }
 }

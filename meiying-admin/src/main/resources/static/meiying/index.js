@@ -141,9 +141,9 @@ $(function() {
             var currentId = $(element).data('id');
             syncMenuTab(currentId);
             // 显示tab对应的内容区
-            $('.RuoYi_iframe').each(function() {
+            $('.MeiYing_iframe').each(function() {
                 if ($(this).data('id') == currentId) {
-                    $(this).show().siblings('.RuoYi_iframe').hide();
+                    $(this).show().siblings('.MeiYing_iframe').hide();
                 }
             });
             $(element).addClass('active').siblings('.menuTab').removeClass('active');
@@ -281,9 +281,9 @@ $(function() {
                     $(this).addClass('active').siblings('.menuTab').removeClass('active');
                     scrollToTab(this);
                     // 显示tab对应的内容区
-                    $('.mainContent .RuoYi_iframe').each(function() {
+                    $('.mainContent .MeiYing_iframe').each(function() {
                         if ($(this).data('id') == dataUrl) {
-                            $(this).show().siblings('.RuoYi_iframe').hide();
+                            $(this).show().siblings('.MeiYing_iframe').hide();
                             return false;
                         }
                     });
@@ -298,8 +298,8 @@ $(function() {
             $('.menuTab').removeClass('active');
 
             // 添加选项卡对应的iframe
-            var str1 = '<iframe class="RuoYi_iframe" name="iframe' + dataIndex + '" width="100%" height="100%" src="' + dataUrl + '" frameborder="0" data-id="' + dataUrl + '" seamless></iframe>';
-            $('.mainContent').find('iframe.RuoYi_iframe').hide().parents('.mainContent').append(str1);
+            var str1 = '<iframe class="MeiYing_iframe" name="iframe' + dataIndex + '" width="100%" height="100%" src="' + dataUrl + '" frameborder="0" data-id="' + dataUrl + '" seamless></iframe>';
+            $('.mainContent').find('iframe.MeiYing_iframe').hide().parents('.mainContent').append(str1);
 
             $.modal.loading("数据加载中，请稍后...");
 
@@ -339,9 +339,9 @@ $(function() {
                 var activeId = $(this).parents('.menuTab').next('.menuTab:eq(0)').data('id');
                 $(this).parents('.menuTab').next('.menuTab:eq(0)').addClass('active');
 
-                $('.mainContent .RuoYi_iframe').each(function() {
+                $('.mainContent .MeiYing_iframe').each(function() {
                     if ($(this).data('id') == activeId) {
-                        $(this).show().siblings('.RuoYi_iframe').hide();
+                        $(this).show().siblings('.MeiYing_iframe').hide();
                         return false;
                     }
                 });
@@ -358,7 +358,7 @@ $(function() {
                 $(this).parents('.menuTab').remove();
 
                 // 移除tab对应的内容区
-                $('.mainContent .RuoYi_iframe').each(function() {
+                $('.mainContent .MeiYing_iframe').each(function() {
                     if ($(this).data('id') == closeTabId) {
                         $(this).remove();
                         return false;
@@ -370,9 +370,9 @@ $(function() {
             if ($(this).parents('.menuTab').prev('.menuTab').size()) {
                 var activeId = $(this).parents('.menuTab').prev('.menuTab:last').data('id');
                 $(this).parents('.menuTab').prev('.menuTab:last').addClass('active');
-                $('.mainContent .RuoYi_iframe').each(function() {
+                $('.mainContent .MeiYing_iframe').each(function() {
                     if ($(this).data('id') == activeId) {
-                        $(this).show().siblings('.RuoYi_iframe').hide();
+                        $(this).show().siblings('.MeiYing_iframe').hide();
                         return false;
                     }
                 });
@@ -381,7 +381,7 @@ $(function() {
                 $(this).parents('.menuTab').remove();
 
                 // 移除tab对应的内容区
-                $('.mainContent .RuoYi_iframe').each(function() {
+                $('.mainContent .MeiYing_iframe').each(function() {
                     if ($(this).data('id') == closeTabId) {
                         $(this).remove();
                         return false;
@@ -390,9 +390,9 @@ $(function() {
 
                 if($.common.isNotEmpty(panelUrl)){
             		$('.menuTab[data-id="' + panelUrl + '"]').addClass('active').siblings('.menuTab').removeClass('active');
-            		$('.mainContent .RuoYi_iframe').each(function() {
+            		$('.mainContent .MeiYing_iframe').each(function() {
                         if ($(this).data('id') == panelUrl) {
-                            $(this).show().siblings('.RuoYi_iframe').hide();
+                            $(this).show().siblings('.MeiYing_iframe').hide();
                             return false;
                         }
             		});
@@ -405,7 +405,7 @@ $(function() {
             $(this).parents('.menuTab').remove();
 
             // 移除相应tab对应的内容区
-            $('.mainContent .RuoYi_iframe').each(function() {
+            $('.mainContent .MeiYing_iframe').each(function() {
                 if ($(this).data('id') == closeTabId) {
                     $(this).remove();
                     return false;
@@ -431,9 +431,9 @@ $(function() {
             var currentId = $(this).data('id');
             syncMenuTab(currentId);
             // 显示tab对应的内容区
-            $('.mainContent .RuoYi_iframe').each(function() {
+            $('.mainContent .MeiYing_iframe').each(function() {
                 if ($(this).data('id') == currentId) {
-                    $(this).show().siblings('.RuoYi_iframe').hide();
+                    $(this).show().siblings('.MeiYing_iframe').hide();
                     return false;
                 }
             });
@@ -448,7 +448,7 @@ $(function() {
     // 刷新iframe
     function refreshTab() {
     	var currentId = $('.page-tabs-content').find('.active').attr('data-id');
-    	var target = $('.RuoYi_iframe[data-id="' + currentId + '"]');
+    	var target = $('.MeiYing_iframe[data-id="' + currentId + '"]');
         var url = target.attr('src');
         target.attr('src', url).ready();
     }
@@ -456,7 +456,7 @@ $(function() {
     // 页签全屏
     function fullScreenTab() {
     	var currentId = $('.page-tabs-content').find('.active').attr('data-id');
-    	var target = $('.RuoYi_iframe[data-id="' + currentId + '"]');
+    	var target = $('.MeiYing_iframe[data-id="' + currentId + '"]');
 	    target.fullScreen(true);
     }
 
@@ -468,7 +468,7 @@ $(function() {
     //关闭其他选项卡
     function tabCloseOther() {
         $('.page-tabs-content').children("[data-id]").not(":first").not(".active").each(function() {
-            $('.RuoYi_iframe[data-id="' + $(this).data('id') + '"]').remove();
+            $('.MeiYing_iframe[data-id="' + $(this).data('id') + '"]').remove();
             $(this).remove();
         });
         $('.page-tabs-content').css("margin-left", "0");
@@ -477,11 +477,11 @@ $(function() {
     // 关闭全部选项卡
     function tabCloseAll() {
     	$('.page-tabs-content').children("[data-id]").not(":first").each(function() {
-            $('.RuoYi_iframe[data-id="' + $(this).data('id') + '"]').remove();
+            $('.MeiYing_iframe[data-id="' + $(this).data('id') + '"]').remove();
             $(this).remove();
         });
         $('.page-tabs-content').children("[data-id]:first").each(function() {
-            $('.RuoYi_iframe[data-id="' + $(this).data('id') + '"]').show();
+            $('.MeiYing_iframe[data-id="' + $(this).data('id') + '"]').show();
             $(this).addClass("active");
         });
         $('.page-tabs-content').css("margin-left", "0");
@@ -589,7 +589,7 @@ $(function() {
                 	    if ($(this).hasClass('active')) {
                 	        setActiveTab(this);
                 	    }
-                	    $('.RuoYi_iframe[data-id="' + $(this).data('id') + '"]').remove();
+                	    $('.MeiYing_iframe[data-id="' + $(this).data('id') + '"]').remove();
                 	    $(this).remove();
                 	});
                 	$('.page-tabs-content').css("margin-left", "0");
@@ -619,7 +619,7 @@ $(function() {
                 icon: "fa-arrows-alt",
                 callback: function(key, opt) {
                 	setActiveTab(this);
-                    var target = $('.RuoYi_iframe[data-id="' + this.data('id') + '"]');
+                    var target = $('.MeiYing_iframe[data-id="' + this.data('id') + '"]');
                 	target.fullScreen(true);
                 }
             },
@@ -628,7 +628,7 @@ $(function() {
                 icon: "fa-refresh",
                 callback: function(key, opt) {
                 	setActiveTab(this);
-                	var target = $('.RuoYi_iframe[data-id="' + this.data('id') + '"]');
+                	var target = $('.MeiYing_iframe[data-id="' + this.data('id') + '"]');
                 	var url = target.attr('src');
                     $.modal.loading("数据加载中，请稍后...");
                     target.attr('src', url).load(function () {
@@ -640,7 +640,7 @@ $(function() {
                 name: "新窗口打开",
                 icon: "fa-link",
                 callback: function(key, opt) {
-                	var target = $('.RuoYi_iframe[data-id="' + this.data('id') + '"]');
+                	var target = $('.MeiYing_iframe[data-id="' + this.data('id') + '"]');
                     window.open(target.attr('src'));
                 }
             },

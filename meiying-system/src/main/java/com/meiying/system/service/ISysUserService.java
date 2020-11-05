@@ -51,4 +51,26 @@ public interface ISysUserService {
      * @return 结果
      */
     public String selectUserPostGroup(String userId);
+    /**
+     * 校验手机号码是否唯一
+     *
+     * @param user 用户信息
+     * @return 结果
+     */
+    public String checkPhoneUnique(SysUser user);
+
+    /**
+     * 校验email是否唯一
+     *
+     * @param user 用户信息
+     * @return 结果
+     */
+    public String checkEmailUnique(SysUser user);
+    /**
+     * 修改用户密码信息
+     *
+     * @param user 用户信息
+     * @return 结果
+     */
+    public int resetUserPwd(SysUser user);
 }

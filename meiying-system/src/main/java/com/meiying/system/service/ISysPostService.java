@@ -1,4 +1,4 @@
-package com.meiying.system.service.impl;
+package com.meiying.system.service;
 
 /**
  * Description:岗位模块服务接口申明

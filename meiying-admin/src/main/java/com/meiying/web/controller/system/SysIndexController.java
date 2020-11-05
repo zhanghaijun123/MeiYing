@@ -2,6 +2,9 @@ package com.meiying.web.controller.system;
 
 import com.meiying.common.config.Global;
 import com.meiying.common.core.controller.BaseController;
+import com.meiying.common.core.text.Convert;
+import com.meiying.common.utils.CookieUtils;
+import com.meiying.common.utils.DateUtils;
 import com.meiying.common.utils.ServletUtils;
 import com.meiying.common.utils.StringUtils;
 import com.meiying.framework.util.ShiroUtils;
@@ -13,8 +16,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -45,6 +51,8 @@ public class SysIndexController extends BaseController {
         mmap.put("ignoreFooter", configService.selectConfigByKey("sys.index.ignoreFooter"));
         mmap.put("copyrightYear", Global.getCopyrightYear());
         mmap.put("demoEnabled", Global.isDemoEnabled());
+        mmap.put("isDefaultModifyPwd", initPasswordIsModify(user.getPwdUpdateDate()));
+        mmap.put("isPasswordExpired", passwordIsExpiration(user.getPwdUpdateDate()));
 
         // 菜单导航显示风格
         String menuStyle = configService.selectConfigByKey("sys.index.menuStyle");
@@ -70,5 +78,49 @@ public class SysIndexController extends BaseController {
     {
         mmap.put("version", Global.getVersion());
         return "main";
+    }
+    // 切换主题
+    @GetMapping("/system/switchSkin")
+    public String switchSkin()
+    {
+        return "skin";
+    }
+    // 切换菜单
+    @GetMapping("/system/menuStyle/{style}")
+    public void menuStyle(@PathVariable String style, HttpServletResponse response)
+    {
+        CookieUtils.setCookie(response, "nav-style", style);
+    }
+
+    /**
+     * 检查初始密码是否提醒修改
+     * @param pwdUpdateDate
+     * @return
+     */
+    public boolean initPasswordIsModify(Date pwdUpdateDate)
+    {
+        int initPasswordModify = Convert.toInt(configService.selectConfigByKey("sys.account.initPasswordModify"));
+        return initPasswordModify == 1 && pwdUpdateDate == null;
+    }
+
+    /**
+     * 检查密码是否过期
+     * @param pwdUpdateDate
+     * @return
+     */
+    public boolean passwordIsExpiration(Date pwdUpdateDate)
+    {
+        int passwordValidateDays = Convert.toInt(configService.selectConfigByKey("sys.account.passwordValidateDays"));
+        if (passwordValidateDays > 0)
+        {
+            if (StringUtils.isNull(pwdUpdateDate))
+            {
+                // 如果从未修改过初始密码，直接提醒过期
+                return true;
+            }
+            Date nowDate = DateUtils.getNowDate();
+            return DateUtils.differentDaysByMillisecond(nowDate, pwdUpdateDate) > passwordValidateDays;
+        }
+        return false;
     }
 }

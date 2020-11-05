@@ -9,7 +9,9 @@ import com.meiying.framework.shiro.session.OnlineSession;
 import com.meiying.framework.util.LogUtils;
 import com.meiying.framework.util.ShiroUtils;
 import com.meiying.system.domain.SysLogininfor;
+import com.meiying.system.domain.SysOperLog;
 import com.meiying.system.domain.SysUserOnline;
+import com.meiying.system.service.ISysOperLogService;
 import com.meiying.system.service.ISysUserOnlineService;
 import com.meiying.system.service.impl.SysLogininforServiceImpl;
 import eu.bitwalker.useragentutils.UserAgent;
@@ -106,6 +108,25 @@ public class AsyncFactory {
                 }
                 // 插入数据
                 SpringUtils.getBean(SysLogininforServiceImpl.class).insertLogininfor(logininfor);
+            }
+        };
+    }
+    /**
+     * 操作日志记录
+     *
+     * @param operLog 操作日志信息
+     * @return 任务task
+     */
+    public static TimerTask recordOper(final SysOperLog operLog)
+    {
+        return new TimerTask()
+        {
+            @Override
+            public void run()
+            {
+                // 远程查询操作地点
+                operLog.setOperLocation(AddressUtils.getRealAddressByIP(operLog.getOperIp()));
+                SpringUtils.getBean(ISysOperLogService.class).insertOperlog(operLog);
             }
         };
     }

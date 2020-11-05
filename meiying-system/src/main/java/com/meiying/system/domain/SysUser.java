@@ -9,6 +9,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -70,6 +71,8 @@ public class SysUser extends BaseEntity {
 
     /** 最后登录时间 */
     private Date loginDate;
+    /** 密码最后更新时间 */
+    private Date pwdUpdateDate;
     /**部门对象**/
     private SysDept dept;
     /** 角色组 */
@@ -242,6 +245,14 @@ public class SysUser extends BaseEntity {
         this.loginDate = loginDate;
     }
 
+    public Date getPwdUpdateDate() {
+        return pwdUpdateDate;
+    }
+
+    public void setPwdUpdateDate(Date pwdUpdateDate) {
+        this.pwdUpdateDate = pwdUpdateDate;
+    }
+
     public SysDept getDept()
     {
         if (dept == null)
@@ -288,29 +299,29 @@ public class SysUser extends BaseEntity {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-                .append("userId", getUserId())
-                .append("deptId", getDeptId())
-                .append("loginName", getLoginName())
-                .append("userName", getUserName())
-                .append("userType", getUserType())
-                .append("email", getEmail())
-                .append("phonenumber", getPhonenumber())
-                .append("sex", getSex())
-                .append("avatar", getAvatar())
-                .append("password", getPassword())
-                .append("salt", getSalt())
-                .append("status", getStatus())
-                .append("delFlag", getDelFlag())
-                .append("loginIp", getLoginIp())
-                .append("loginDate", getLoginDate())
-                .append("createBy", getCreateBy())
-                .append("createTime", getCreateTime())
-                .append("updateBy", getUpdateBy())
-                .append("updateTime", getUpdateTime())
-                .append("remark", getRemark())
-                .append("dept", getDept())
-                .append("roles", getRoles())
-                .toString();
+        return "SysUser{" +
+                "userId='" + userId + '\'' +
+                ", deptId='" + deptId + '\'' +
+                ", parentId='" + parentId + '\'' +
+                ", roleId='" + roleId + '\'' +
+                ", loginName='" + loginName + '\'' +
+                ", userName='" + userName + '\'' +
+                ", userType='" + userType + '\'' +
+                ", email='" + email + '\'' +
+                ", phonenumber='" + phonenumber + '\'' +
+                ", sex='" + sex + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", password='" + password + '\'' +
+                ", salt='" + salt + '\'' +
+                ", status='" + status + '\'' +
+                ", delFlag='" + delFlag + '\'' +
+                ", loginIp='" + loginIp + '\'' +
+                ", loginDate=" + loginDate +
+                ", pwdUpdateDate=" + pwdUpdateDate +
+                ", dept=" + dept +
+                ", roles=" + roles +
+                ", roleIds=" + Arrays.toString(roleIds) +
+                ", postIds=" + Arrays.toString(postIds) +
+                '}';
     }
 }
