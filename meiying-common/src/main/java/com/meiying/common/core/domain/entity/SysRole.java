@@ -1,6 +1,7 @@
-package com.meiying.system.domain;
+package com.meiying.common.core.domain.entity;
 
 import com.meiying.common.core.domain.BaseEntity;
+import com.meiying.common.utils.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -74,7 +75,7 @@ public class SysRole extends BaseEntity {
 
     public static boolean isAdmin(String roleId)
     {
-        return roleId != null && "1" == roleId;
+        return roleId != null && StringUtils.equals( "1",roleId);
     }
 
     public String getDataScope()

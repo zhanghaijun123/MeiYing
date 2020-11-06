@@ -12,7 +12,7 @@ import com.meiying.framework.manager.AsyncManager;
 import com.meiying.framework.manager.factory.AsyncFactory;
 import com.meiying.framework.util.ShiroUtils;
 import com.meiying.system.domain.SysOperLog;
-import com.meiying.system.domain.SysUser;
+import com.meiying.common.core.domain.entity.SysUser;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.AfterReturning;

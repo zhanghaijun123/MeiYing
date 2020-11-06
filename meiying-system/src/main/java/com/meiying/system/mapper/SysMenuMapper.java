@@ -1,6 +1,6 @@
 package com.meiying.system.mapper;
 
-import com.meiying.system.domain.SysMenu;
+import com.meiying.common.core.domain.entity.SysMenu;
 
 import java.util.List;
 
@@ -24,4 +24,11 @@ public interface SysMenuMapper {
      * @return
      */
     List<SysMenu> selectMenusByUserId(String userId);
+    /**
+     * 根据用户ID查询权限
+     *
+     * @param userId 用户ID
+     * @return 权限列表
+     */
+    public List<String> selectPermsByUserId(String userId);
 }

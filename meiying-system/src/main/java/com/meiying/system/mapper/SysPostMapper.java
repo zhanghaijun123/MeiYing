@@ -18,4 +18,10 @@ public interface SysPostMapper {
      * @return 岗位列表
      */
     public List<SysPost> selectPostsByUserId(String userId);
+    /**
+     * 查询所有岗位
+     *
+     * @return 岗位列表
+     */
+    public List<SysPost> selectPostAll();
 }

@@ -1,19 +1,22 @@
 package com.meiying.system.service.impl;
 
+import com.meiying.common.annotation.DataScope;
 import com.meiying.common.constant.UserConstants;
 import com.meiying.common.utils.StringUtils;
 import com.meiying.system.domain.SysPost;
-import com.meiying.system.domain.SysRole;
-import com.meiying.system.domain.SysUser;
-import com.meiying.system.mapper.SysPostMapper;
-import com.meiying.system.mapper.SysRoleMapper;
-import com.meiying.system.mapper.SysUserMapper;
+import com.meiying.common.core.domain.entity.SysRole;
+import com.meiying.common.core.domain.entity.SysUser;
+import com.meiying.system.domain.SysUserPost;
+import com.meiying.system.domain.SysUserRole;
+import com.meiying.system.mapper.*;
 import com.meiying.system.service.ISysUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,15 +35,11 @@ public class SysUserServiceImpl implements ISysUserService {
     private SysRoleMapper roleMapper;
     @Autowired
     private SysPostMapper postMapper;
+    @Autowired
+    private SysUserPostMapper userPostMapper;
+    @Autowired
+    private SysUserRoleMapper userRoleMapper;
 
-    /**
-     * 查询所有用户
-     * @return
-     */
-    @Override
-    public List<SysUser> selectUserList() {
-        return userMapper.selectUserList();
-    }
 
     /**
      * 根据id查询单个用户
@@ -113,6 +112,22 @@ public class SysUserServiceImpl implements ISysUserService {
         return idsStr.toString();
     }
     /**
+     * 校验登录名称是否唯一
+     *
+     * @param loginName 用户名
+     * @return
+     */
+    @Override
+    public String checkLoginNameUnique(String loginName)
+    {
+        int count = userMapper.checkLoginNameUnique(loginName);
+        if (count > 0)
+        {
+            return UserConstants.USER_NAME_NOT_UNIQUE;
+        }
+        return UserConstants.USER_NAME_UNIQUE;
+    }
+    /**
      * 校验手机号码是否唯一
      *
      * @param user 用户信息
@@ -158,5 +173,84 @@ public class SysUserServiceImpl implements ISysUserService {
     {
         return updateUserInfo(user);
     }
+    /**
+     * 根据条件分页查询用户列表
+     *
+     * @param user 用户信息
+     * @return 用户信息集合信息
+     */
+    @Override
+    @DataScope(deptAlias = "d", userAlias = "u")
+    public List<SysUser> selectUserList(SysUser user)
+    {
+        return userMapper.selectUserList(user);
+    }
+    /**
+     * 新增保存用户信息
+     *
+     * @param user 用户信息
+     * @return 结果
+     */
+    @Override
+    @Transactional
+    public int insertUser(SysUser user)
+    {
+        // 新增用户信息
+        int rows = userMapper.insertUser(user);
+        // 新增用户岗位关联
+        insertUserPost(user);
+        // 新增用户与角色管理
+        insertUserRole(user.getUserId(), user.getRoleIds());
+        return rows;
+    }
+    /**
+     * 新增用户岗位信息
+     *
+     * @param user 用户对象
+     */
+    public void insertUserPost(SysUser user)
+    {
+        String[] posts = user.getPostIds();
+        if (StringUtils.isNotNull(posts))
+        {
+            // 新增用户与岗位管理
+            List<SysUserPost> list = new ArrayList<SysUserPost>();
+            for (String postId : posts)
+            {
+                SysUserPost up = new SysUserPost();
+                up.setUserId(user.getUserId());
+                up.setPostId(postId);
+                list.add(up);
+            }
+            if (list.size() > 0)
+            {
+                userPostMapper.batchUserPost(list);
+            }
+        }
+    }
 
+    /**
+     * 新增用户角色信息
+     * @param userId
+     * @param roleIds
+     */
+    public void insertUserRole(String userId, String[] roleIds)
+    {
+        if (StringUtils.isNotNull(roleIds))
+        {
+            // 新增用户与角色管理
+            List<SysUserRole> list = new ArrayList<SysUserRole>();
+            for (String roleId : roleIds)
+            {
+                SysUserRole ur = new SysUserRole();
+                ur.setUserId(userId);
+                ur.setRoleId(roleId);
+                list.add(ur);
+            }
+            if (list.size() > 0)
+            {
+                userRoleMapper.batchUserRole(list);
+            }
+        }
+    }
 }

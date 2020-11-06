@@ -6,7 +6,7 @@ import com.meiying.common.utils.StringUtils;
 import com.meiying.framework.shiro.session.OnlineSession;
 import com.meiying.framework.shiro.session.OnlineSessionDAO;
 import com.meiying.framework.util.ShiroUtils;
-import com.meiying.system.domain.SysUser;
+import com.meiying.common.core.domain.entity.SysUser;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;

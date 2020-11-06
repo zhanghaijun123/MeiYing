@@ -1,10 +1,10 @@
-package com.meiying.system.domain;
+package com.meiying.common.core.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.meiying.common.core.domain.BaseEntity;
+import com.meiying.common.core.domain.entity.SysDept;
+import com.meiying.common.core.domain.entity.SysRole;
 import com.meiying.common.utils.StringUtils;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

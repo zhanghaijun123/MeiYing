@@ -1,6 +1,6 @@
 package com.meiying.system.mapper;
 
-import com.meiying.system.domain.SysUser;
+import com.meiying.common.core.domain.entity.SysUser;
 
 import java.util.List;
 
@@ -12,10 +12,17 @@ import java.util.List;
  */
 public interface SysUserMapper {
     /**
+     * 新增用户信息
+     *
+     * @param user 用户信息
+     * @return 结果
+     */
+    public int insertUser(SysUser user);
+    /**
      * 查询所有用户列表
      * @return
      */
-    List<SysUser> selectUserList();
+    List<SysUser> selectUserList(SysUser sysUser);
 
     /**
      * 根据id查询单个用户
@@ -37,6 +44,13 @@ public interface SysUserMapper {
      * @return
      */
     int updateUser(SysUser user);
+    /**
+     * 校验用户名称是否唯一
+     *
+     * @param loginName 登录名称
+     * @return 结果
+     */
+    public int checkLoginNameUnique(String loginName);
     /**
      * 校验手机号码是否唯一
      *

@@ -28,6 +28,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			 LEFT JOIN sys_post p ON up.post_id = p.post_id
 		WHERE up.user_id = #{userId}
 	</select>
+	<select id="selectPostAll" resultMap="SysPostResult">
+		<include refid="selectPostVo"/>
+	</select>
 
 
 </mapper> 

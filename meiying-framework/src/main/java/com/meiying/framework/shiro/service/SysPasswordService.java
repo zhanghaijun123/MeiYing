@@ -7,7 +7,7 @@ import com.meiying.common.exception.user.UserPasswordRetryLimitExceedException;
 import com.meiying.common.utils.MessageUtils;
 import com.meiying.framework.manager.AsyncManager;
 import com.meiying.framework.manager.factory.AsyncFactory;
-import com.meiying.system.domain.SysUser;
+import com.meiying.common.core.domain.entity.SysUser;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.crypto.hash.Md5Hash;

@@ -1,6 +1,6 @@
 package com.meiying.system.service;
 
-import com.meiying.system.domain.SysUser;
+import com.meiying.common.core.domain.entity.SysUser;
 
 import java.util.List;
 
@@ -12,10 +12,19 @@ import java.util.List;
  */
 public interface ISysUserService {
     /**
-     * 查询所有用户
-     * @return
+     * 保存用户信息
+     *
+     * @param user 用户信息
+     * @return 结果
      */
-    List<SysUser> selectUserList();
+    public int insertUser(SysUser user);
+    /**
+     * 根据条件分页查询用户列表
+     *
+     * @param user 用户信息
+     * @return 用户信息集合信息
+     */
+    public List<SysUser> selectUserList(SysUser user);
 
     /**
      * 根据id查询单个用户
@@ -51,6 +60,13 @@ public interface ISysUserService {
      * @return 结果
      */
     public String selectUserPostGroup(String userId);
+    /**
+     * 校验用户名称是否唯一
+     *
+     * @param loginName 登录名称
+     * @return 结果
+     */
+    public String checkLoginNameUnique(String loginName);
     /**
      * 校验手机号码是否唯一
      *

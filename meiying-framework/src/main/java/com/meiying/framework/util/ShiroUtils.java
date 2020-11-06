@@ -3,7 +3,7 @@ package com.meiying.framework.util;
 import com.meiying.common.utils.StringUtils;
 import com.meiying.common.utils.bean.BeanUtils;
 import com.meiying.framework.shiro.realm.UserRealm;
-import com.meiying.system.domain.SysUser;
+import com.meiying.common.core.domain.entity.SysUser;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.mgt.RealmSecurityManager;

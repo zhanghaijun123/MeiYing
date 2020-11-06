@@ -1,4 +1,4 @@
-package com.meiying.system.domain;
+package com.meiying.common.core.domain.entity;
 
 import com.meiying.common.core.domain.BaseEntity;
 import org.apache.commons.lang3.builder.ToStringBuilder;

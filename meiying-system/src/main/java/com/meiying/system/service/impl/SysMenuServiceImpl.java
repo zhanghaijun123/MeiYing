@@ -1,17 +1,14 @@
 package com.meiying.system.service.impl;
 
 import com.meiying.common.utils.StringUtils;
-import com.meiying.system.domain.SysMenu;
-import com.meiying.system.domain.SysUser;
+import com.meiying.common.core.domain.entity.SysMenu;
+import com.meiying.common.core.domain.entity.SysUser;
 import com.meiying.system.mapper.SysMenuMapper;
 import com.meiying.system.service.ISysMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Description:菜单模块接口实现
@@ -23,6 +20,28 @@ import java.util.List;
 public class SysMenuServiceImpl implements ISysMenuService {
     @Autowired
     private SysMenuMapper menuMapper;
+
+
+    /**
+     * 根据用户ID查询权限
+     *
+     * @param userId 用户ID
+     * @return 权限列表
+     */
+    @Override
+    public Set<String> selectPermsByUserId(String userId)
+    {
+        List<String> perms = menuMapper.selectPermsByUserId(userId);
+        Set<String> permsSet = new HashSet<>();
+        for (String perm : perms)
+        {
+            if (StringUtils.isNotEmpty(perm))
+            {
+                permsSet.addAll(Arrays.asList(perm.trim().split(",")));
+            }
+        }
+        return permsSet;
+    }
     /**
      * 根据用户id查询菜单
      * @param user

@@ -11,7 +11,7 @@ import com.meiying.common.utils.ServletUtils;
 import com.meiying.framework.manager.AsyncManager;
 import com.meiying.framework.manager.factory.AsyncFactory;
 import com.meiying.framework.util.ShiroUtils;
-import com.meiying.system.domain.SysUser;
+import com.meiying.common.core.domain.entity.SysUser;
 import com.meiying.system.service.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

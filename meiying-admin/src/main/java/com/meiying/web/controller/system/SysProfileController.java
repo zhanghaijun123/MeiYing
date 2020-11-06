@@ -9,7 +9,7 @@ import com.meiying.common.utils.DateUtils;
 import com.meiying.common.utils.file.FileUploadUtils;
 import com.meiying.framework.shiro.service.SysPasswordService;
 import com.meiying.framework.util.ShiroUtils;
-import com.meiying.system.domain.SysUser;
+import com.meiying.common.core.domain.entity.SysUser;
 import com.meiying.system.service.ISysUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
