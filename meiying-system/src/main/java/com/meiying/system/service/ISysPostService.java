@@ -17,4 +17,11 @@ public interface ISysPostService {
      * @return 岗位列表
      */
     public List<SysPost> selectPostAll();
+    /**
+     * 根据用户ID查询岗位
+     *
+     * @param userId 用户ID
+     * @return 岗位列表
+     */
+    public List<SysPost> selectPostsByUserId(String userId);
 }

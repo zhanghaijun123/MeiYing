@@ -18,4 +18,11 @@ public interface SysUserPostMapper {
      * @return 结果
      */
     public int batchUserPost(List<SysUserPost> userPostList);
+    /**
+     * 通过用户ID删除用户和岗位关联
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    public int deleteUserPostByUserId(String userId);
 }

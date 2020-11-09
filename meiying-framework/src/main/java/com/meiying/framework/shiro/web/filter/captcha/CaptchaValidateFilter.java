@@ -3,7 +3,7 @@ package com.meiying.framework.shiro.web.filter.captcha;
 import com.google.code.kaptcha.Constants;
 import com.meiying.common.constant.ShiroConstants;
 import com.meiying.common.utils.StringUtils;
-import com.meiying.framework.util.ShiroUtils;
+import com.meiying.framework.shiro.util.ShiroUtils;
 import org.apache.shiro.web.filter.AccessControlFilter;
 
 import javax.servlet.ServletRequest;

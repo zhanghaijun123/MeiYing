@@ -79,8 +79,9 @@
         <!-- 数据范围过滤 -->
         ${params.dataScope}
     </select>
-    <select id="selectUserById" resultMap="SysUserResult">
-        select * from sys_user where user_id=#{id}
+    <select id="selectUserById" parameterType="string" resultMap="SysUserResult">
+        <include refid="selectUserVo"/>
+        where u.user_id = #{userId}
     </select>
     <select id="selectUserByLoginName" parameterType="String" resultMap="SysUserResult">
         <include refid="selectUserVo"/>
@@ -163,4 +164,11 @@
         sysdate()
         )
     </insert>
+<!--    批量删除用户信息-->
+    <delete id="deleteUserByIds" parameterType="string">
+        update sys_user set del_flag = '2' where user_id in
+        <foreach collection="array" item="userId" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </delete>
 </mapper>

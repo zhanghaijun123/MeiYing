@@ -1,4 +1,4 @@
-package com.meiying.framework.util;
+package com.meiying.common.utils;
 
 import com.meiying.common.json.JSON;
 import com.meiying.common.utils.IpUtils;

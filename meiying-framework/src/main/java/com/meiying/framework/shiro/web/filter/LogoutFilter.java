@@ -6,7 +6,7 @@ import com.meiying.common.utils.StringUtils;
 import com.meiying.common.utils.spring.SpringUtils;
 import com.meiying.framework.manager.AsyncManager;
 import com.meiying.framework.manager.factory.AsyncFactory;
-import com.meiying.framework.util.ShiroUtils;
+import com.meiying.framework.shiro.util.ShiroUtils;
 import com.meiying.common.core.domain.entity.SysUser;
 import com.meiying.system.service.ISysUserOnlineService;
 import org.apache.shiro.session.SessionException;

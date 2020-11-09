@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.meiying.common.constant.ShiroConstants;
 import com.meiying.common.core.domain.AjaxResult;
 import com.meiying.common.utils.ServletUtils;
-import com.meiying.framework.util.ShiroUtils;
+import com.meiying.framework.shiro.util.ShiroUtils;
 import com.meiying.common.core.domain.entity.SysUser;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;

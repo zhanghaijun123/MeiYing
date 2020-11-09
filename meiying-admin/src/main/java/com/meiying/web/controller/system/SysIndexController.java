@@ -7,7 +7,7 @@ import com.meiying.common.utils.CookieUtils;
 import com.meiying.common.utils.DateUtils;
 import com.meiying.common.utils.ServletUtils;
 import com.meiying.common.utils.StringUtils;
-import com.meiying.framework.util.ShiroUtils;
+import com.meiying.framework.shiro.util.ShiroUtils;
 import com.meiying.common.core.domain.entity.SysMenu;
 import com.meiying.common.core.domain.entity.SysUser;
 import com.meiying.system.service.ISysConfigService;

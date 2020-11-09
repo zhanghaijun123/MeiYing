@@ -5,7 +5,7 @@ import com.meiying.common.core.domain.BaseEntity;
 import com.meiying.common.core.domain.entity.SysRole;
 import com.meiying.common.core.domain.entity.SysUser;
 import com.meiying.common.utils.StringUtils;
-import com.meiying.framework.util.ShiroUtils;
+import com.meiying.framework.shiro.util.ShiroUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Aspect;

@@ -1,4 +1,4 @@
-package com.meiying.framework.util;
+package com.meiying.framework.shiro.util;
 
 import com.meiying.common.utils.StringUtils;
 import com.meiying.common.utils.bean.BeanUtils;

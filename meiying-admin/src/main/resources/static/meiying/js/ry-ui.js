@@ -351,6 +351,7 @@ var table = {
     		exportExcel: function(formId) {
     			table.set();
     			$.modal.confirm("确定导出所有" + table.options.modalName + "吗？", function() {
+    				debugger;
 	    			var currentId = $.common.isEmpty(formId) ? $('form').attr('id') : formId;
 	    			var params = $("#" + table.options.id).bootstrapTable('getOptions');
 	    			var dataParam = $("#" + currentId).serializeArray();
@@ -983,6 +984,7 @@ var table = {
             remove: function(id) {
             	table.set();
             	$.modal.confirm("确定删除该条" + table.options.modalName + "信息吗？", function() {
+            		debugger
                     var url = $.common.isEmpty(id) ? table.options.removeUrl : table.options.removeUrl.replace("{id}", id);
                     if(table.options.type == table_type.bootstrapTreeTable) {
                     	$.operate.get(url);
@@ -1053,6 +1055,7 @@ var table = {
             },
             // 修改信息，以tab页展现
             editTab: function(id) {
+        		debugger
             	table.set();
             	$.modal.openTab("修改" + table.options.modalName, $.operate.editUrl(id));
             },
@@ -1079,6 +1082,7 @@ var table = {
             },
             // 修改访问地址
             editUrl: function(id) {
+        		debugger
             	var url = "/404.html";
             	if ($.common.isNotEmpty(id)) {
             	    url = table.options.updateUrl.replace("{id}", id);

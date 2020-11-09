@@ -2,13 +2,17 @@ package com.meiying.system.service.impl;
 
 import com.meiying.common.annotation.DataScope;
 import com.meiying.common.constant.UserConstants;
+import com.meiying.common.core.text.Convert;
+import com.meiying.common.exception.BusinessException;
 import com.meiying.common.utils.StringUtils;
+import com.meiying.common.utils.security.Md5Utils;
 import com.meiying.system.domain.SysPost;
 import com.meiying.common.core.domain.entity.SysRole;
 import com.meiying.common.core.domain.entity.SysUser;
 import com.meiying.system.domain.SysUserPost;
 import com.meiying.system.domain.SysUserRole;
 import com.meiying.system.mapper.*;
+import com.meiying.system.service.ISysConfigService;
 import com.meiying.system.service.ISysUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +43,8 @@ public class SysUserServiceImpl implements ISysUserService {
     private SysUserPostMapper userPostMapper;
     @Autowired
     private SysUserRoleMapper userRoleMapper;
+    @Autowired
+    private ISysConfigService configService;
 
 
     /**
@@ -252,5 +258,121 @@ public class SysUserServiceImpl implements ISysUserService {
                 userRoleMapper.batchUserRole(list);
             }
         }
+    }
+    /**
+     * 校验用户是否允许操作
+     *
+     * @param user 用户信息
+     */
+    @Override
+    public void checkUserAllowed(SysUser user)
+    {
+        if (StringUtils.isNotNull(user.getUserId()) && user.isAdmin())
+        {
+            throw new BusinessException("不允许操作超级管理员用户");
+        }
+    }
+    /**
+     * 修改保存用户信息
+     *
+     * @param user 用户信息
+     * @return 结果
+     */
+    @Override
+    @Transactional
+    public int updateUser(SysUser user)
+    {
+        String userId = user.getUserId();
+        // 删除用户与角色关联
+        userRoleMapper.deleteUserRoleByUserId(userId);
+        // 新增用户与角色管理
+        insertUserRole(user.getUserId(), user.getRoleIds());
+        // 删除用户与岗位关联
+        userPostMapper.deleteUserPostByUserId(userId);
+        // 新增用户与岗位管理
+        insertUserPost(user);
+        return userMapper.updateUser(user);
+    }
+    /**
+     * 批量删除用户信息
+     *
+     * @param ids 需要删除的数据ID
+     * @return 结果
+     */
+    @Override
+    public int deleteUserByIds(String ids) throws BusinessException
+    {
+        String[] userIds = Convert.toStrArray(ids);
+        for (String userId : userIds)
+        {
+            checkUserAllowed(new SysUser(userId));
+        }
+        return userMapper.deleteUserByIds(userIds);
+    }
+    /**
+     * 导入用户数据
+     *
+     * @param userList 用户数据列表
+     * @param isUpdateSupport 是否更新支持，如果已存在，则进行更新数据
+     * @param operName 操作用户
+     * @return 结果
+     */
+    @Override
+    public String importUser(List<SysUser> userList, Boolean isUpdateSupport, String operName)
+    {
+        if (StringUtils.isNull(userList) || userList.size() == 0)
+        {
+            throw new BusinessException("导入用户数据不能为空！");
+        }
+        int successNum = 0;
+        int failureNum = 0;
+        StringBuilder successMsg = new StringBuilder();
+        StringBuilder failureMsg = new StringBuilder();
+        String password = configService.selectConfigByKey("sys.user.initPassword");
+        for (SysUser user : userList)
+        {
+            try
+            {
+                // 验证是否存在这个用户
+                SysUser u = userMapper.selectUserByLoginName(user.getLoginName());
+                if (StringUtils.isNull(u))
+                {
+                    user.setPassword(Md5Utils.hash(user.getLoginName() + password));
+                    user.setCreateBy(operName);
+                    this.insertUser(user);
+                    successNum++;
+                    successMsg.append("<br/>" + successNum + "、账号 " + user.getLoginName() + " 导入成功");
+                }
+                else if (isUpdateSupport)
+                {
+                    user.setUpdateBy(operName);
+                    this.updateUser(user);
+                    successNum++;
+                    successMsg.append("<br/>" + successNum + "、账号 " + user.getLoginName() + " 更新成功");
+                }
+                else
+                {
+                    failureNum++;
+                    failureMsg.append("<br/>" + failureNum + "、账号 " + user.getLoginName() + " 已存在");
+                }
+            }
+            catch (Exception e)
+            {
+                failureNum++;
+                String msg = "<br/>" + failureNum + "、账号 " + user.getLoginName() + " 导入失败：";
+                failureMsg.append(msg + e.getMessage());
+                log.error(msg, e);
+            }
+        }
+        if (failureNum > 0)
+        {
+            failureMsg.insert(0, "很抱歉，导入失败！共 " + failureNum + " 条数据格式不正确，错误如下：");
+            throw new BusinessException(failureMsg.toString());
+        }
+        else
+        {
+            successMsg.insert(0, "恭喜您，数据已全部导入成功！共 " + successNum + " 条，数据如下：");
+        }
+        return successMsg.toString();
     }
 }

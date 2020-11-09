@@ -3,7 +3,7 @@ package com.meiying.framework.shiro.realm;
 import com.meiying.common.exception.user.*;
 import com.meiying.framework.shiro.service.SysLoginService;
 import com.meiying.common.core.domain.entity.SysUser;
-import com.meiying.framework.util.ShiroUtils;
+import com.meiying.framework.shiro.util.ShiroUtils;
 import com.meiying.system.service.ISysMenuService;
 import com.meiying.system.service.ISysRoleService;
 import org.apache.shiro.SecurityUtils;

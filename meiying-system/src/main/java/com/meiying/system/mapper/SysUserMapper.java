@@ -65,4 +65,11 @@ public interface SysUserMapper {
      * @return 结果
      */
     public SysUser checkEmailUnique(String email);
+    /**
+     * 批量删除用户信息
+     *
+     * @param ids 需要删除的数据ID
+     * @return 结果
+     */
+    public int deleteUserByIds(String[] ids);
 }
