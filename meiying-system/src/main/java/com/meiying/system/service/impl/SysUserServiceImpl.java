@@ -375,4 +375,27 @@ public class SysUserServiceImpl implements ISysUserService {
         }
         return successMsg.toString();
     }
+    /**
+     * 用户授权角色
+     *
+     * @param userId 用户ID
+     * @param roleIds 角色组
+     */
+    @Override
+    public void insertUserAuth(String userId, String[] roleIds)
+    {
+        userRoleMapper.deleteUserRoleByUserId(userId);
+        insertUserRole(userId, roleIds);
+    }
+    /**
+     * 用户状态修改
+     *
+     * @param user 用户信息
+     * @return 结果
+     */
+    @Override
+    public int changeStatus(SysUser user)
+    {
+        return userMapper.updateUser(user);
+    }
 }

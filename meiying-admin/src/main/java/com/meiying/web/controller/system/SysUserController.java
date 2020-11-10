@@ -243,4 +243,81 @@ public class SysUserController extends BaseController {
         ExcelUtil<SysUser> util = new ExcelUtil<SysUser>(SysUser.class);
         return util.exportExcel(list, "用户数据");
     }
+
+    /**
+     * 进入用户重置密码页面
+     * @param userId
+     * @param mmap
+     * @return
+     */
+    @RequiresPermissions("system:user:resetPwd")
+    @GetMapping("/resetPwd/{userId}")
+    public String resetPwd(@PathVariable("userId") String userId, ModelMap mmap)
+    {
+        mmap.put("user", userService.selectUserById(userId));
+        return prefix + "/resetPwd";
+    }
+
+    /**
+     * 用户重置密码
+     * @param user
+     * @return
+     */
+    @RequiresPermissions("system:user:resetPwd")
+    @Log(title = "重置密码", businessType = BusinessType.UPDATE)
+    @PostMapping("/resetPwd")
+    @ResponseBody
+    public AjaxResult resetPwdSave(SysUser user)
+    {
+        userService.checkUserAllowed(user);
+        user.setSalt(ShiroUtils.randomSalt());
+        user.setPassword(passwordService.encryptPassword(user.getLoginName(), user.getPassword(), user.getSalt()));
+        if (userService.resetUserPwd(user) > 0)
+        {
+            if (StringUtils.equals(ShiroUtils.getUserId(),user.getUserId()))
+            {
+                ShiroUtils.setSysUser(userService.selectUserById(user.getUserId()));
+            }
+            return success();
+        }
+        return error();
+    }
+    /**
+     * 进入授权角色页
+     */
+    @GetMapping("/authRole/{userId}")
+    public String authRole(@PathVariable("userId") String userId, ModelMap mmap)
+    {
+        SysUser user = userService.selectUserById(userId);
+        // 获取用户所属的角色列表
+        List<SysRole> roles = roleService.selectRolesByUserId(userId);
+        mmap.put("user", user);
+        mmap.put("roles", SysUser.isAdmin(userId) ? roles : roles.stream().filter(r -> !r.isAdmin()).collect(Collectors.toList()));
+        return prefix + "/authRole";
+    }
+
+    /**
+     * 用户授权角色
+     */
+    @RequiresPermissions("system:user:add")
+    @Log(title = "用户管理", businessType = BusinessType.GRANT)
+    @PostMapping("/authRole/insertAuthRole")
+    @ResponseBody
+    public AjaxResult insertAuthRole(String userId, String[] roleIds)
+    {
+        userService.insertUserAuth(userId, roleIds);
+        return success();
+    }
+    /**
+     * 用户状态修改
+     */
+    @Log(title = "用户管理", businessType = BusinessType.UPDATE)
+    @RequiresPermissions("system:user:edit")
+    @PostMapping("/changeStatus")
+    @ResponseBody
+    public AjaxResult changeStatus(SysUser user)
+    {
+        userService.checkUserAllowed(user);
+        return toAjax(userService.changeStatus(user));
+    }
 }

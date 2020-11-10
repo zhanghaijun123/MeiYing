@@ -10,8 +10,10 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.cache.Cache;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -125,5 +127,27 @@ public class UserRealm extends AuthorizingRealm {
     public void clearCachedAuthorizationInfo()
     {
         this.clearCachedAuthorizationInfo(SecurityUtils.getSubject().getPrincipals());
+    }
+    /**
+     * 清理指定用户授权信息缓存
+     */
+    public void clearCachedAuthorizationInfo(Object principal)
+    {
+        SimplePrincipalCollection principals = new SimplePrincipalCollection(principal, getName());
+        this.clearCachedAuthorizationInfo(principals);
+    }
+    /**
+     * 清理所有用户授权信息缓存
+     */
+    public void clearAllCachedAuthorizationInfo()
+    {
+        Cache<Object, AuthorizationInfo> cache = getAuthorizationCache();
+        if (cache != null)
+        {
+            for (Object key : cache.keys())
+            {
+                cache.remove(key);
+            }
+        }
     }
 }

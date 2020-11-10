@@ -62,6 +62,42 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<!-- 数据范围过滤 -->
 		${params.dataScope}
 	</select>
+<!--	校验角色名称是否唯一-->
+	<select id="checkRoleNameUnique" parameterType="String" resultMap="SysRoleResult">
+		<include refid="selectRoleVo"/>
+		where r.role_name=#{roleName} limit 1
+	</select>
+<!--	校验角色权限是否唯一-->
+	<select id="checkRoleKeyUnique" parameterType="String" resultMap="SysRoleResult">
+		<include refid="selectRoleVo"/>
+		where r.role_key=#{roleKey} limit 1
+	</select>
+	<insert id="insertRole" parameterType="SysRole" useGeneratedKeys="true" keyProperty="roleId">
+		<selectKey keyProperty="roleId" resultType="java.lang.String" order="BEFORE">
+			select replace(uuid(),'-','') from dual
+		</selectKey>
+		insert into sys_role(
+		<if test="roleId != null and roleId != ''">role_id,</if>
+		<if test="roleName != null and roleName != ''">role_name,</if>
+		<if test="roleKey != null and roleKey != ''">role_key,</if>
+		<if test="roleSort != null and roleSort != ''">role_sort,</if>
+		<if test="dataScope != null and dataScope != ''">data_scope,</if>
+		<if test="status != null and status != ''">status,</if>
+		<if test="remark != null and remark != ''">remark,</if>
+		<if test="createBy != null and createBy != ''">create_by,</if>
+		create_time
+		)values(
+		<if test="roleId != null and roleId != ''">#{roleId},</if>
+		<if test="roleName != null and roleName != ''">#{roleName},</if>
+		<if test="roleKey != null and roleKey != ''">#{roleKey},</if>
+		<if test="roleSort != null and roleSort != ''">#{roleSort},</if>
+		<if test="dataScope != null and dataScope != ''">#{dataScope},</if>
+		<if test="status != null and status != ''">#{status},</if>
+		<if test="remark != null and remark != ''">#{remark},</if>
+		<if test="createBy != null and createBy != ''">#{createBy},</if>
+		sysdate()
+		)
+	</insert>
 
 	
 </mapper> 

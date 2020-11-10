@@ -39,4 +39,25 @@ public interface ISysRoleService {
      * @return 角色列表
      */
     public List<SysRole> selectRolesByUserId(String userId);
+    /**
+     * 校验角色名称是否唯一
+     *
+     * @param role 角色信息
+     * @return 结果
+     */
+    public String checkRoleNameUnique(SysRole role);
+    /**
+     * 校验角色权限是否唯一
+     *
+     * @param role 角色信息
+     * @return 结果
+     */
+    public String checkRoleKeyUnique(SysRole role);
+    /**
+     * 新增保存角色信息
+     *
+     * @param role 角色信息
+     * @return 结果
+     */
+    public int insertRole(SysRole role);
 }
