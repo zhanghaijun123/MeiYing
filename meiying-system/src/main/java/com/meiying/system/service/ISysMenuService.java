@@ -1,6 +1,8 @@
 package com.meiying.system.service;
 
+import com.meiying.common.core.domain.Ztree;
 import com.meiying.common.core.domain.entity.SysMenu;
+import com.meiying.common.core.domain.entity.SysRole;
 import com.meiying.common.core.domain.entity.SysUser;
 
 import java.util.List;
@@ -26,4 +28,19 @@ public interface ISysMenuService {
      * @return 权限列表
      */
     public Set<String> selectPermsByUserId(String userId);
+    /**
+     * 根据角色ID查询菜单
+     *
+     * @param role 角色对象
+     * @param userId 用户ID
+     * @return 菜单列表
+     */
+    public List<Ztree> roleMenuTreeData(SysRole role, String userId);
+    /**
+     * 查询菜单集合
+     *
+     * @param userId 用户ID
+     * @return 所有菜单信息
+     */
+    public List<SysMenu> selectMenuAll(String userId);
 }

@@ -4,6 +4,7 @@ import com.meiying.common.annotation.DataScope;
 import com.meiying.common.constant.UserConstants;
 import com.meiying.common.core.domain.Ztree;
 import com.meiying.common.core.domain.entity.SysDept;
+import com.meiying.common.core.domain.entity.SysRole;
 import com.meiying.common.utils.StringUtils;
 import com.meiying.system.mapper.SysDeptMapper;
 import com.meiying.system.service.ISysDeptService;
@@ -113,5 +114,40 @@ public class SysDeptServiceImpl implements ISysDeptService {
             }
         }
         return ztrees;
+    }
+    /**
+     * 根据角色ID查询部门（数据权限）
+     *
+     * @param role 角色对象
+     * @return 部门列表（数据权限）
+     */
+    @Override
+    public List<Ztree> roleDeptTreeData(SysRole role)
+    {
+        String roleId = role.getRoleId();
+        List<Ztree> ztrees = new ArrayList<Ztree>();
+        List<SysDept> deptList = selectDeptList(new SysDept());
+        if (StringUtils.isNotNull(roleId))
+        {
+            List<String> roleDeptList = deptMapper.selectRoleDeptTree(roleId);
+            ztrees = initZtree(deptList, roleDeptList);
+        }
+        else
+        {
+            ztrees = initZtree(deptList);
+        }
+        return ztrees;
+    }
+    /**
+     * 查询部门管理数据
+     *
+     * @param dept 部门信息
+     * @return 部门信息集合
+     */
+    @Override
+    @DataScope(deptAlias = "d")
+    public List<SysDept> selectDeptList(SysDept dept)
+    {
+        return deptMapper.selectDeptList(dept);
     }
 }

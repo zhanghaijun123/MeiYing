@@ -2,6 +2,7 @@ package com.meiying.system.service;
 
 import com.meiying.common.core.domain.Ztree;
 import com.meiying.common.core.domain.entity.SysDept;
+import com.meiying.common.core.domain.entity.SysRole;
 
 import java.util.List;
 
@@ -33,4 +34,18 @@ public interface ISysDeptService {
      * @return 部门信息
      */
     public SysDept selectDeptById(String deptId);
+    /**
+     * 根据角色ID查询部门菜单
+     *
+     * @param role 角色对象
+     * @return 菜单列表
+     */
+    public List<Ztree> roleDeptTreeData(SysRole role);
+    /**
+     * 查询部门管理数据
+     *
+     * @param dept 部门信息
+     * @return 部门信息集合
+     */
+    public List<SysDept> selectDeptList(SysDept dept);
 }

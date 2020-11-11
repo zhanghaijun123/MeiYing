@@ -46,4 +46,25 @@ public interface SysRoleMapper {
      * @return 结果
      */
     public int insertRole(SysRole role);
+    /**
+     * 通过角色ID查询角色
+     *
+     * @param roleId 角色ID
+     * @return 角色对象信息
+     */
+    public SysRole selectRoleById(String roleId);
+    /**
+     * 批量角色用户信息
+     *
+     * @param ids 需要删除的数据ID
+     * @return 结果
+     */
+    public int deleteRoleByIds(String[] ids);
+    /**
+     * 修改角色信息
+     *
+     * @param role 角色信息
+     * @return 结果
+     */
+    public int updateRole(SysRole role);
 }

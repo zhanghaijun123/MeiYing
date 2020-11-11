@@ -1,5 +1,7 @@
 package com.meiying.system.service.impl;
 
+import com.meiying.common.core.domain.Ztree;
+import com.meiying.common.core.domain.entity.SysRole;
 import com.meiying.common.utils.StringUtils;
 import com.meiying.common.core.domain.entity.SysMenu;
 import com.meiying.common.core.domain.entity.SysUser;
@@ -126,5 +128,91 @@ public class SysMenuServiceImpl implements ISysMenuService {
     private boolean hasChild(List<SysMenu> list, SysMenu t)
     {
         return getChildList(list, t).size() > 0 ? true : false;
+    }
+    /**
+     * 根据角色ID查询菜单
+     *
+     * @param role 角色对象
+     * @return 菜单列表
+     */
+    @Override
+    public List<Ztree> roleMenuTreeData(SysRole role, String userId)
+    {
+        String roleId = role.getRoleId();
+        List<Ztree> ztrees = new ArrayList<Ztree>();
+        List<SysMenu> menuList = selectMenuAll(userId);
+        if (StringUtils.isNotNull(roleId))
+        {
+            List<String> roleMenuList = menuMapper.selectMenuTree(roleId);
+            ztrees = initZtree(menuList, roleMenuList, true);
+        }
+        else
+        {
+            ztrees = initZtree(menuList, null, true);
+        }
+        return ztrees;
+    }
+    /**
+     * 查询菜单集合
+     *
+     * @return 所有菜单信息
+     */
+    @Override
+    public List<SysMenu> selectMenuAll(String userId)
+    {
+        List<SysMenu> menuList = null;
+        if (SysUser.isAdmin(userId))
+        {
+            menuList = menuMapper.selectMenuAll();
+        }
+        else
+        {
+            menuList = menuMapper.selectMenuAllByUserId(userId);
+        }
+        return menuList;
+    }
+    /**
+     * 对象转菜单树
+     *
+     * @param menuList 菜单列表
+     * @param roleMenuList 角色已存在菜单列表
+     * @param permsFlag 是否需要显示权限标识
+     * @return 树结构列表
+     */
+    public List<Ztree> initZtree(List<SysMenu> menuList, List<String> roleMenuList, boolean permsFlag)
+    {
+        List<Ztree> ztrees = new ArrayList<Ztree>();
+        boolean isCheck = StringUtils.isNotNull(roleMenuList);
+        for (SysMenu menu : menuList)
+        {
+            Ztree ztree = new Ztree();
+            ztree.setId(menu.getMenuId());
+            ztree.setpId(menu.getParentId());
+            ztree.setName(transMenuName(menu, permsFlag));
+            ztree.setTitle(menu.getMenuName());
+            if (isCheck)
+            {
+                ztree.setChecked(roleMenuList.contains(menu.getMenuId() + menu.getPerms()));
+            }
+            ztrees.add(ztree);
+        }
+        return ztrees;
+    }
+
+    /**
+     * 转换菜单名称
+     * @param menu
+     * @param permsFlag
+     * @return
+     */
+    public String transMenuName(SysMenu menu, boolean permsFlag)
+    {
+        StringBuffer sb = new StringBuffer();
+        sb.append(menu.getMenuName());
+        if (permsFlag)
+        {
+            sb.append("<font color=\"#888\">&nbsp;&nbsp;&nbsp;" + menu.getPerms() + "</font>");
+        }
+        return sb.toString();
     }
 }

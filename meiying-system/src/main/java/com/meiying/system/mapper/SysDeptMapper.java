@@ -25,4 +25,11 @@ public interface SysDeptMapper {
      * @return 部门信息
      */
     public SysDept selectDeptById(String deptId);
+    /**
+     * 根据角色ID查询部门
+     *
+     * @param roleId 角色ID
+     * @return 部门列表
+     */
+    public List<String> selectRoleDeptTree(String roleId);
 }

@@ -3,6 +3,7 @@ package com.meiying.web.controller.system;
 import com.meiying.common.core.controller.BaseController;
 import com.meiying.common.core.domain.Ztree;
 import com.meiying.common.core.domain.entity.SysDept;
+import com.meiying.common.core.domain.entity.SysRole;
 import com.meiying.system.service.ISysDeptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -61,5 +62,15 @@ public class SysDeptController extends BaseController {
         mmap.put("dept", deptService.selectDeptById(deptId));
         mmap.put("excludeId", excludeId);
         return prefix + "/tree";
+    }
+    /**
+     * 加载角色部门（数据权限）列表树
+     */
+    @GetMapping("/roleDeptTreeData")
+    @ResponseBody
+    public List<Ztree> deptTreeData(SysRole role)
+    {
+        List<Ztree> ztrees = deptService.roleDeptTreeData(role);
+        return ztrees;
     }
 }

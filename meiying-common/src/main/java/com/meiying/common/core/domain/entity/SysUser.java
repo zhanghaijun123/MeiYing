@@ -37,6 +37,7 @@ public class SysUser extends BaseEntity {
 
     /** 角色ID */
     private String roleId;
+
     @Excel(name = "登录名称")
     /** 登录名称 */
     private String loginName;

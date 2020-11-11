@@ -18,5 +18,12 @@ public interface SysRoleMenuMapper {
      * @return 结果
      */
     public int batchRoleMenu(List<SysRoleMenu> roleMenuList);
+    /**
+     * 通过角色ID删除角色和菜单关联
+     *
+     * @param roleId 角色ID
+     * @return 结果
+     */
+    public int deleteRoleMenuByRoleId(String roleId);
 
 }

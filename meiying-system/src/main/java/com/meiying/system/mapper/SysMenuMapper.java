@@ -31,4 +31,24 @@ public interface SysMenuMapper {
      * @return 权限列表
      */
     public List<String> selectPermsByUserId(String userId);
+    /**
+     * 查询系统所有菜单（含按钮）
+     *
+     * @return 菜单列表
+     */
+    public List<SysMenu> selectMenuAll();
+    /**
+     * 根据用户ID查询菜单
+     *
+     * @param userId 用户ID
+     * @return 菜单列表
+     */
+    public List<SysMenu> selectMenuAllByUserId(String userId);
+    /**
+     * 根据角色ID查询菜单
+     *
+     * @param roleId 角色ID
+     * @return 菜单列表
+     */
+    public List<String> selectMenuTree(String roleId);
 }
