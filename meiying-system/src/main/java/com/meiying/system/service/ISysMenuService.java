@@ -43,4 +43,68 @@ public interface ISysMenuService {
      * @return 所有菜单信息
      */
     public List<SysMenu> selectMenuAll(String userId);
+    /**
+     * 查询系统菜单列表
+     *
+     * @param menu 菜单信息
+     * @param userId 用户ID
+     * @return 菜单列表
+     */
+    public List<SysMenu> selectMenuList(SysMenu menu, String userId);
+    /**
+     * 根据菜单ID查询信息
+     *
+     * @param menuId 菜单ID
+     * @return 菜单信息
+     */
+    public SysMenu selectMenuById(String menuId);
+    /**
+     * 查询所有菜单信息
+     *
+     * @param userId 用户ID
+     * @return 菜单列表
+     */
+    public List<Ztree> menuTreeData(String userId);
+    /**
+     * 校验菜单名称是否唯一
+     *
+     * @param menu 菜单信息
+     * @return 结果
+     */
+    public String checkMenuNameUnique(SysMenu menu);
+    /**
+     * 新增保存菜单信息
+     *
+     * @param menu 菜单信息
+     * @return 结果
+     */
+    public int insertMenu(SysMenu menu);
+    /**
+     * 修改保存菜单信息
+     *
+     * @param menu 菜单信息
+     * @return 结果
+     */
+    public int updateMenu(SysMenu menu);
+    /**
+     * 查询子菜单数量
+     *
+     * @param parentId 菜单父ID
+     * @return 结果
+     */
+    public int selectCountMenuByParentId(String parentId);
+    /**
+     * 查询菜单使用数量
+     *
+     * @param menuId 菜单ID
+     * @return 结果
+     */
+    public int selectCountRoleMenuByMenuId(String menuId);
+    /**
+     * 删除菜单管理信息
+     *
+     * @param menuId 菜单ID
+     * @return 结果
+     */
+    public int deleteMenuById(String menuId);
 }

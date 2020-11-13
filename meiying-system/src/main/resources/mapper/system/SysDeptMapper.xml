@@ -52,15 +52,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		order by d.parent_id, d.order_num
     </select>
 	
-	<select id="checkDeptExistUser" parameterType="Long" resultType="int">
+	<select id="checkDeptExistUser" parameterType="string" resultType="int">
 		select count(1) from sys_user where dept_id = #{deptId} and del_flag = '0'
 	</select>
 	
 	<select id="selectDeptCount" parameterType="SysDept" resultType="int">
 		select count(1) from sys_dept
 		where del_flag = '0'
-		<if test="deptId != null and deptId != 0"> and dept_id = #{deptId} </if>
-		<if test="parentId != null and parentId != 0"> and parent_id = #{parentId} </if>
+		<if test="deptId != null and deptId != ''"> and dept_id = #{deptId} </if>
+		<if test="parentId != null and parentId != ''"> and parent_id = #{parentId} </if>
 	</select>
 	
 	<select id="checkDeptNameUnique" resultMap="SysDeptResult">
@@ -75,18 +75,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where d.dept_id = #{deptId}
 	</select>
 
-	<select id="selectChildrenDeptById" parameterType="Long" resultMap="SysDeptResult">
+	<select id="selectChildrenDeptById" parameterType="string" resultMap="SysDeptResult">
 		select * from sys_dept where find_in_set(#{deptId}, ancestors)
 	</select>
 	
-	<select id="selectNormalChildrenDeptById" parameterType="Long" resultType="int">
+	<select id="selectNormalChildrenDeptById" parameterType="string" resultType="int">
 		select count(*) from sys_dept where status = 0 and del_flag = '0' and find_in_set(#{deptId}, ancestors)
 	</select>
 	
 	<insert id="insertDept" parameterType="SysDept">
+        <selectKey keyProperty="deptId" resultType="string" order="BEFORE">
+			select replace(uuid(),'-','') from dual
+		</selectKey>
  		insert into sys_dept(
- 			<if test="deptId != null and deptId != 0">dept_id,</if>
- 			<if test="parentId != null and parentId != 0">parent_id,</if>
+ 			<if test="deptId != null and deptId != ''">dept_id,</if>
+ 			<if test="parentId != null and parentId != ''">parent_id,</if>
  			<if test="deptName != null and deptName != ''">dept_name,</if>
  			<if test="ancestors != null and ancestors != ''">ancestors,</if>
  			<if test="orderNum != null and orderNum != ''">order_num,</if>
@@ -97,8 +100,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			<if test="createBy != null and createBy != ''">create_by,</if>
  			create_time
  		)values(
- 			<if test="deptId != null and deptId != 0">#{deptId},</if>
- 			<if test="parentId != null and parentId != 0">#{parentId},</if>
+ 			<if test="deptId != null and deptId != ''">#{deptId},</if>
+ 			<if test="parentId != null and parentId != ''">#{parentId},</if>
  			<if test="deptName != null and deptName != ''">#{deptName},</if>
  			<if test="ancestors != null and ancestors != ''">#{ancestors},</if>
  			<if test="orderNum != null and orderNum != ''">#{orderNum},</if>
@@ -114,7 +117,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="updateDept" parameterType="SysDept">
  		update sys_dept
  		<set>
- 			<if test="parentId != null and parentId != 0">parent_id = #{parentId},</if>
+ 			<if test="parentId != null and parentId != ''">parent_id = #{parentId},</if>
  			<if test="deptName != null and deptName != ''">dept_name = #{deptName},</if>
  			<if test="ancestors != null and ancestors != ''">ancestors = #{ancestors},</if>
  			<if test="orderNum != null and orderNum != ''">order_num = #{orderNum},</if>
@@ -141,18 +144,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    </foreach>
 	 </update>
 
-	<delete id="deleteDeptById" parameterType="Long">
+	<delete id="deleteDeptById" parameterType="string">
 		update sys_dept set del_flag = '2' where dept_id = #{deptId}
 	</delete>
 	
-	<update id="updateDeptStatus" parameterType="SysDept">
+	<update id="updateDeptStatus">
  	    update sys_dept
  	    <set>
- 	        <if test="status != null and status != ''">status = #{status},</if>
- 	        <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+ 	        <if test="dept.status != null and dept.status != ''">status = #{dept.status},</if>
+ 	        <if test="dept.updateBy != null and dept.updateBy != ''">update_by = #{dept.updateBy},</if>
  	        update_time = sysdate()
         </set>
- 	    where dept_id in (${ancestors})
+ 	    where dept_id in
+       <foreach collection="parentIds" item="item" open="(" separator="," close=")">
+		   #{item}
+	   </foreach>
 	</update>
 
 </mapper> 

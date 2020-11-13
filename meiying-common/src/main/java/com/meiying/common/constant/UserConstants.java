@@ -38,11 +38,27 @@ public class UserConstants {
     public final static String ROLE_KEY_UNIQUE = "0";
     public final static String ROLE_KEY_NOT_UNIQUE = "1";
 
+    /** 菜单名称是否唯一的返回结果码 */
+    public final static String MENU_NAME_UNIQUE = "0";
+    public final static String MENU_NAME_NOT_UNIQUE = "1";
+
+    /** 部门名称是否唯一的返回结果码 */
+    public final static String DEPT_NAME_UNIQUE = "0";
+    public final static String DEPT_NAME_NOT_UNIQUE = "1";
+
+    /** 岗位名称是否唯一的返回结果码 */
+    public final static String POST_NAME_UNIQUE = "0";
+    public final static String POST_NAME_NOT_UNIQUE = "1";
+
+    /** 岗位编码是否唯一的返回结果码 */
+    public final static String POST_CODE_UNIQUE = "0";
+    public final static String POST_CODE_NOT_UNIQUE = "1";
+
     /** 是否为系统默认（是） */
     public static final String YES = "Y";
+
     /** 部门正常状态 */
     public static final String DEPT_NORMAL = "0";
-
     /** 部门停用状态 */
     public static final String DEPT_DISABLE = "1";
 }

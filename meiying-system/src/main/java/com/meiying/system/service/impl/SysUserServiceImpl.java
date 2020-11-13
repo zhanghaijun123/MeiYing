@@ -107,9 +107,11 @@ public class SysUserServiceImpl implements ISysUserService {
     {
         List<SysPost> list = postMapper.selectPostsByUserId(userId);
         StringBuffer idsStr = new StringBuffer();
-        for (SysPost post : list)
-        {
-            idsStr.append(post.getPostName()).append(",");
+        if (list!=null && !list.isEmpty()) {
+            for (SysPost post : list)
+            {
+                idsStr.append(post.getPostName()).append(",");
+            }
         }
         if (StringUtils.isNotEmpty(idsStr.toString()))
         {

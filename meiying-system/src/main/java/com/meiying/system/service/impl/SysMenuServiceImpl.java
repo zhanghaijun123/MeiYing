@@ -1,11 +1,13 @@
 package com.meiying.system.service.impl;
 
+import com.meiying.common.constant.UserConstants;
 import com.meiying.common.core.domain.Ztree;
 import com.meiying.common.core.domain.entity.SysRole;
 import com.meiying.common.utils.StringUtils;
 import com.meiying.common.core.domain.entity.SysMenu;
 import com.meiying.common.core.domain.entity.SysUser;
 import com.meiying.system.mapper.SysMenuMapper;
+import com.meiying.system.mapper.SysRoleMenuMapper;
 import com.meiying.system.service.ISysMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,8 @@ import java.util.*;
 public class SysMenuServiceImpl implements ISysMenuService {
     @Autowired
     private SysMenuMapper menuMapper;
+    @Autowired
+    private SysRoleMenuMapper roleMenuMapper;
 
 
     /**
@@ -215,4 +219,130 @@ public class SysMenuServiceImpl implements ISysMenuService {
         }
         return sb.toString();
     }
+    /**
+     * 查询菜单集合
+     *
+     * @return 所有菜单信息
+     */
+    @Override
+    public List<SysMenu> selectMenuList(SysMenu menu, String userId)
+    {
+        List<SysMenu> menuList = null;
+        if (SysUser.isAdmin(userId))
+        {
+            menuList = menuMapper.selectMenuList(menu);
+        }
+        else
+        {
+            menu.getParams().put("userId", userId);
+            menuList = menuMapper.selectMenuListByUserId(menu);
+        }
+        return menuList;
+    }
+    /**
+     * 根据菜单ID查询信息
+     *
+     * @param menuId 菜单ID
+     * @return 菜单信息
+     */
+    @Override
+    public SysMenu selectMenuById(String menuId)
+    {
+        return menuMapper.selectMenuById(menuId);
+    }
+    /**
+     * 查询所有菜单
+     *
+     * @return 菜单列表
+     */
+    @Override
+    public List<Ztree> menuTreeData(String userId)
+    {
+        List<SysMenu> menuList = selectMenuAll(userId);
+        List<Ztree> ztrees = initZtree(menuList);
+        return ztrees;
+    }
+    /**
+     * 对象转菜单树
+     *
+     * @param menuList 菜单列表
+     * @return 树结构列表
+     */
+    public List<Ztree> initZtree(List<SysMenu> menuList)
+    {
+        return initZtree(menuList, null, false);
+    }
+    /**
+     * 校验菜单名称是否唯一
+     *
+     * @param menu 菜单信息
+     * @return 结果
+     */
+    @Override
+    public String checkMenuNameUnique(SysMenu menu)
+    {
+        String menuId = StringUtils.isNull(menu.getMenuId()) ? "-1" : menu.getMenuId();
+        SysMenu info = menuMapper.checkMenuNameUnique(menu.getMenuName(), menu.getParentId());
+        if (StringUtils.isNotNull(info) && !StringUtils.equals(info.getMenuId(),menuId))
+        {
+            return UserConstants.MENU_NAME_NOT_UNIQUE;
+        }
+        return UserConstants.MENU_NAME_UNIQUE;
+    }
+    /**
+     * 新增保存菜单信息
+     *
+     * @param menu 菜单信息
+     * @return 结果
+     */
+    @Override
+    public int insertMenu(SysMenu menu)
+    {
+        return menuMapper.insertMenu(menu);
+    }
+    /**
+     * 修改保存菜单信息
+     *
+     * @param menu 菜单信息
+     * @return 结果
+     */
+    @Override
+    public int updateMenu(SysMenu menu)
+    {
+        return menuMapper.updateMenu(menu);
+    }
+    /**
+     * 查询子菜单数量
+     *
+     * @param parentId 父级菜单ID
+     * @return 结果
+     */
+    @Override
+    public int selectCountMenuByParentId(String parentId)
+    {
+        return menuMapper.selectCountMenuByParentId(parentId);
+    }
+    /**
+     * 查询菜单使用数量
+     *
+     * @param menuId 菜单ID
+     * @return 结果
+     */
+    @Override
+    public int selectCountRoleMenuByMenuId(String menuId)
+    {
+        return roleMenuMapper.selectCountRoleMenuByMenuId(menuId);
+    }
+    /**
+     * 删除菜单管理信息
+     *
+     * @param menuId 菜单ID
+     * @return 结果
+     */
+    @Override
+    public int deleteMenuById(String menuId)
+    {
+        return menuMapper.deleteMenuById(menuId);
+    }
+
 }

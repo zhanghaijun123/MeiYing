@@ -25,4 +25,11 @@ public interface SysUserPostMapper {
      * @return 结果
      */
     public int deleteUserPostByUserId(String userId);
+    /**
+     * 通过岗位ID查询岗位使用数量
+     *
+     * @param postId 岗位ID
+     * @return 结果
+     */
+    public int countUserPostById(String postId);
 }
