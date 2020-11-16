@@ -54,6 +54,14 @@ public class UserConstants {
     public final static String POST_CODE_UNIQUE = "0";
     public final static String POST_CODE_NOT_UNIQUE = "1";
 
+    /** 字典类型是否唯一的返回结果码 */
+    public final static String DICT_TYPE_UNIQUE = "0";
+    public final static String DICT_TYPE_NOT_UNIQUE = "1";
+
+    /** 参数键名是否唯一的返回结果码 */
+    public final static String CONFIG_KEY_UNIQUE = "0";
+    public final static String CONFIG_KEY_NOT_UNIQUE = "1";
+
     /** 是否为系统默认（是） */
     public static final String YES = "Y";
 

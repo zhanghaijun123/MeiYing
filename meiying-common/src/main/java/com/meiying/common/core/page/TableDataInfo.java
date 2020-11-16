@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Description:
+ * Description:前端bootstrap表格数据格式封装
  * User: zhanghj
  * Date: 2020-10-10
  * Time: 10:27
