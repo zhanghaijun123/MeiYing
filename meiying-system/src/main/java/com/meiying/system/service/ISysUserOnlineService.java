@@ -54,4 +54,11 @@ public interface ISysUserOnlineService {
      * @return 会话集合
      */
     public List<SysUserOnline> selectOnlineByExpired(Date expiredDate);
+    /**
+     * 查询会话集合
+     *
+     * @param userOnline 分页参数
+     * @return 会话集合
+     */
+    public List<SysUserOnline> selectUserOnlineList(SysUserOnline userOnline);
 }

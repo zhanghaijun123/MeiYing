@@ -34,4 +34,16 @@
         WHERE o.last_access_time <![CDATA[ <= ]]> #{lastAccessTime} ORDER BY o.last_access_time ASC
     </select>
 
+    <select id="selectUserOnlineList" parameterType="SysUserOnline" resultMap="SysUserOnlineResult">
+        <include refid="selectOnlineVo"/>
+        <where>
+            <if test="ipaddr != null and ipaddr != ''">
+                AND ipaddr like concat('%', #{ipaddr}, '%')
+            </if>
+            <if test="loginName != null and loginName != ''">
+                AND login_name like concat('%', #{loginName}, '%')
+            </if>
+        </where>
+    </select>
+
 </mapper>

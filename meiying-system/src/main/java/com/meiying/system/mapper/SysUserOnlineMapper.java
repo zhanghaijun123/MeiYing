@@ -39,4 +39,11 @@ public interface SysUserOnlineMapper {
      * @return 会话集合
      */
     public List<SysUserOnline> selectOnlineByExpired(String lastAccessTime);
+    /**
+     * 查询会话集合
+     *
+     * @param userOnline 会话参数
+     * @return 会话集合
+     */
+    public List<SysUserOnline> selectUserOnlineList(SysUserOnline userOnline);
 }
